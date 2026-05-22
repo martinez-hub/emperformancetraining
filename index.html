@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="es" data-lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EM Performance Training — Entrenamiento personalizado para atletas y todos los niveles en Puerto Rico. Basketball, rendimiento deportivo, coaching online.">
+  <title>EM Performance Training | Trust Your Work</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── RESET & TOKENS ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #06090F;
+      --bg2:       #0A1020;
+      --bg3:       #0F1828;
+      --bg4:       #131E30;
+      --blue:      #1A6BFF;
+      --blue-lt:   #5B9BFF;
+      --blue-dim:  rgba(26, 107, 255, 0.12);
+      --blue-bdr:  rgba(26, 107, 255, 0.22);
+      --text:      #EEF2FF;
+      --muted:     #7B91AE;
+      --muted2:    #4A5F78;
+      --border:    rgba(255,255,255,0.06);
+      --radius:    0px;
+      --nav-h:     68px;
+      --font-disp: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── GRAIN OVERLAY ─────────────────────────────────────────── */
+    #grain {
+      position: fixed; inset: 0; z-index: 9000;
+      pointer-events: none;
+      opacity: 0.032;
+    }
+
+    /* ─── SCROLL PROGRESS ───────────────────────────────────────── */
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: var(--blue);
+      z-index: 9001;
+      transition: width 0.1s linear;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(6, 9, 15, 0);
+      border-bottom: 1px solid transparent;
+      z-index: 500;
+      transition: background 0.4s var(--ease), border-color 0.4s var(--ease), backdrop-filter 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(6, 9, 15, 0.88);
+      border-color: var(--border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .nav-logo img {
+      height: 40px;
+      display: block;
+    }
+
+    .nav-center {
+      display: flex; align-items: center; gap: 36px;
+    }
+    .nav-center a {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-center a::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--blue);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s var(--ease);
+    }
+    .nav-center a:hover { color: var(--text); }
+    .nav-center a:hover::after { transform: scaleX(1); }
+
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+
+    .lang-btn {
+      background: none; border: 1px solid var(--blue-bdr);
+      color: var(--blue-lt); font-family: var(--font-body);
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      padding: 7px 14px; cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .lang-btn:hover { background: var(--blue-dim); border-color: var(--blue); }
+
+    .nav-cta {
+      background: var(--blue); color: #fff;
+      font-family: var(--font-body);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 10px 22px; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .nav-cta:hover { background: #1558E0; transform: translateY(-1px); }
+
+    /* ─── HERO ───────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 55% 45%;
+      padding-top: var(--nav-h);
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px 80px 80px;
+      position: relative;
+    }
+
+    .hero-left::before {
+      content: '';
+      position: absolute; left: 48px; top: 25%; bottom: 25%;
+      width: 2px;
+      background: linear-gradient(180deg, transparent 0%, var(--blue) 40%, var(--blue) 60%, transparent 100%);
+    }
+
+    .hero-eyebrow {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue-lt);
+      margin-bottom: 20px;
+      opacity: 0; transform: translateY(12px);
+    }
+
+    .hero-headline {
+      font-family: var(--font-disp);
+      font-size: clamp(72px, 8vw, 116px);
+      line-height: 0.92;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      opacity: 0; transform: translateY(20px);
+    }
+    .hero-headline .line2 { color: var(--blue); display: block; }
+
+    .hero-slogan {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted);
+      padding-left: 16px;
+      border-left: 2px solid var(--blue);
+      margin: 22px 0 28px;
+      opacity: 0; transform: translateY(12px);
+    }
+
+    .hero-body {
+      font-size: 15px; line-height: 1.75;
+      color: var(--muted); max-width: 460px;
+      margin-bottom: 36px;
+      opacity: 0; transform: translateY(12px);
+      font-weight: 300;
+    }
+
+    .hero-tags {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 40px;
+      opacity: 0; transform: translateY(12px);
+    }
+    .hero-tag {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--blue-lt); border: 1px solid var(--blue-bdr);
+      padding: 6px 12px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .hero-tag:hover { background: var(--blue-dim); border-color: var(--blue); }
+
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      opacity: 0; transform: translateY(12px);
+    }
+    .btn-primary {
+      background: var(--blue); color: #fff;
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 15px 30px; text-decoration: none;
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #1558E0; transform: translateY(-2px); }
+    .btn-primary svg { transition: transform 0.2s; }
+    .btn-primary:hover svg { transform: translateX(4px); }
+
+    .btn-outline {
+      background: transparent; color: var(--text);
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 15px 30px; text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.18); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-2px);
+    }
+
+    /* Hero image */
+    .hero-right {
+      position: relative; overflow: hidden;
+      background: var(--bg2);
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      display: block;
+      filter: brightness(0.82) contrast(1.05);
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background:
+        linear-gradient(90deg, var(--bg) 0%, transparent 25%),
+        linear-gradient(0deg, var(--bg) 0%, transparent 28%);
+    }
+    .hero-badge {
+      position: absolute; bottom: 36px; right: 36px; z-index: 2;
+      background: rgba(6,9,15,0.82);
+      border: 1px solid var(--blue-bdr);
+      backdrop-filter: blur(10px);
+      padding: 14px 20px 16px;
+      max-width: 180px;
+    }
+    .hero-badge .bgl { font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--blue-lt); text-transform: uppercase; margin-bottom: 4px; }
+    .hero-badge .bgt { font-family: var(--font-disp); font-size: 22px; letter-spacing: 2px; color: var(--text); line-height: 1; }
+
+    /* ─── STATS ──────────────────────────────────────────────────── */
+    #stats {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(4,1fr);
+    }
+    .stat {
+      padding: 36px 16px; text-align: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .stat:last-child { border-right: none; }
+    .stat::after {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 0; height: 2px; background: var(--blue);
+      transition: width 0.6s var(--ease);
+    }
+    .stat.in-view::after { width: 40%; }
+    .stat-num {
+      font-family: var(--font-disp);
+      font-size: 52px; line-height: 1;
+      color: var(--blue); letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ─── SHARED SECTION STYLES ──────────────────────────────────── */
+    .section { padding: 110px 80px; }
+
+    .s-eye {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--blue-lt); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .s-eye::before {
+      content: ''; width: 24px; height: 1px;
+      background: var(--blue-lt); flex-shrink: 0;
+    }
+
+    .s-title {
+      font-family: var(--font-disp);
+      font-size: clamp(44px, 4.5vw, 68px);
+      line-height: 0.95; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .s-title .accent { color: var(--blue); }
+
+    .s-sub {
+      font-size: 15px; color: var(--muted);
+      line-height: 1.75; max-width: 540px;
+      font-weight: 300;
+    }
+
+    /* reveal */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+    .reveal-d6 { transition-delay: 0.6s; }
+
+    /* ─── SERVICES ───────────────────────────────────────────────── */
+    #services { background: var(--bg); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 56px;
+    }
+
+    .svc {
+      background: var(--bg2);
+      padding: 44px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: background 0.3s;
+    }
+    .svc::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--blue);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.4s var(--ease);
+    }
+    .svc:hover { background: var(--bg3); }
+    .svc:hover::before { transform: scaleY(1); }
+
+    .svc-num {
+      font-family: var(--font-disp);
+      font-size: 13px; letter-spacing: 3px;
+      color: var(--blue); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .svc-num::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--blue-bdr);
+    }
+
+    .svc-icon { font-size: 30px; margin-bottom: 14px; display: block; }
+
+    .svc-name {
+      font-family: var(--font-disp);
+      font-size: 30px; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 14px;
+      line-height: 1;
+    }
+    .svc-desc {
+      font-size: 14px; color: var(--muted); line-height: 1.75;
+      font-weight: 300;
+    }
+    .svc-tag {
+      display: inline-block; margin-top: 20px;
+      font-size: 9px; font-weight: 700; letter-spacing: 2px;
+      color: var(--blue-lt); text-transform: uppercase;
+      border: 1px solid var(--blue-bdr); padding: 5px 12px;
+    }
+
+    /* ─── ABOUT ──────────────────────────────────────────────────── */
+    #about {
+      background: var(--bg2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0;
+    }
+
+    .about-photo {
+      position: relative; overflow: hidden;
+      min-height: 700px;
+    }
+    .about-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+      filter: brightness(0.78) contrast(1.08) saturate(0.9);
+      display: block;
+    }
+    .about-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 50%, var(--bg2) 100%),
+                  linear-gradient(0deg, var(--bg2) 0%, transparent 30%);
+    }
+
+    .about-frame {
+      position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px;
+      border: 1px solid rgba(26,107,255,0.18); z-index: 2;
+      pointer-events: none;
+    }
+    .about-cred {
+      position: absolute; bottom: 28px; left: 28px; z-index: 3;
+      background: var(--blue); padding: 10px 18px;
+    }
+    .about-cred span {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff;
+    }
+
+    .about-content {
+      padding: 80px 80px 80px 60px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .creds {
+      margin-top: 32px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .cred-item {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 13px; color: var(--muted); font-weight: 400;
+    }
+    .cred-item::before {
+      content: ''; flex-shrink: 0;
+      width: 18px; height: 1px; background: var(--blue);
+    }
+
+    .achievements {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .ach {
+      display: flex; gap: 14px; align-items: flex-start;
+      font-size: 13px; color: var(--muted); line-height: 1.6; font-weight: 300;
+    }
+    .ach-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .ach strong { color: var(--text); font-weight: 600; }
+
+    /* ─── GALLERY ────────────────────────────────────────────────── */
+    #gallery { background: var(--bg); }
+
+    .gallery-grid {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: 320px 280px;
+      gap: 4px;
+    }
+
+    .g-item {
+      overflow: hidden; position: relative; background: var(--bg3);
+    }
+    .g-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.8) contrast(1.05) saturate(0.85);
+      display: block;
+      transition: transform 0.6s var(--ease), filter 0.4s;
+    }
+    .g-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.95) contrast(1.05) saturate(1);
+    }
+    .g-item:first-child {
+      grid-row: 1 / 3;
+    }
+
+    .g-label {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+      padding: 20px 18px 16px;
+      background: linear-gradient(0deg, rgba(6,9,15,0.85) 0%, transparent 100%);
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--blue-lt);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .g-item:hover .g-label { opacity: 1; }
+
+    /* ─── BOOKING ────────────────────────────────────────────────── */
+    #booking {
+      background: var(--bg2);
+      padding: 110px 80px;
+      position: relative; overflow: hidden;
+    }
+    #booking::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(26,107,255,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .booking-inner {
+      max-width: 720px; margin: 0 auto;
+      text-align: center; position: relative;
+    }
+
+    .booking-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--blue-bdr);
+      background: var(--blue-dim);
+      padding: 8px 18px; margin-bottom: 28px;
+    }
+    .booking-pill span {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase; color: var(--blue-lt);
+    }
+
+    .calendly-box {
+      margin-top: 52px;
+      border: 1px solid var(--blue-bdr);
+      background: var(--bg);
+      padding: 56px 40px 48px;
+      position: relative;
+    }
+    .calendly-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .cal-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+    .cal-title {
+      font-family: var(--font-disp);
+      font-size: 32px; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .cal-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; font-weight: 300; }
+    .zoom-note {
+      margin-top: 20px;
+      font-size: 12px; color: var(--muted2);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+
+    /* ─── CONTACT ────────────────────────────────────────────────── */
+    #contact {
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 0;
+      padding: 0;
+    }
+
+    .contact-left {
+      padding: 100px 60px 100px 80px;
+      border-right: 1px solid var(--border);
+    }
+
+    .contact-links { margin-top: 40px; display: flex; flex-direction: column; gap: 12px; }
+
+    .c-link {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+    }
+    .c-link::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--blue);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.3s var(--ease);
+    }
+    .c-link:hover { border-color: var(--blue-bdr); background: var(--blue-dim); }
+    .c-link:hover::before { transform: scaleY(1); }
+
+    .c-link-icon { font-size: 20px; width: 36px; text-align: center; flex-shrink: 0; }
+    .c-link-lbl {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .c-link-val { font-size: 14px; font-weight: 500; }
+
+    .contact-right { padding: 100px 80px 100px 60px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .fg {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .fg label {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    }
+    .fg input, .fg textarea, .fg select {
+      background: var(--bg2); border: 1px solid var(--border);
+      color: var(--text); padding: 13px 16px;
+      font-size: 14px; font-family: var(--font-body);
+      font-weight: 400; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none; appearance: none;
+    }
+    .fg input:focus, .fg textarea:focus, .fg select:focus {
+      border-color: var(--blue);
+      background: var(--bg3);
+    }
+    .fg textarea { resize: vertical; }
+    .fg select option { background: var(--bg2); }
+
+    .form-submit {
+      width: 100%; background: var(--blue); color: #fff;
+      border: none; font-family: var(--font-body);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 16px 32px; cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s, transform 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .form-submit:hover { background: #1558E0; transform: translateY(-2px); }
+    .form-submit svg { transition: transform 0.2s; }
+    .form-submit:hover svg { transform: translateX(4px); }
+
+    .form-note {
+      font-size: 11px; color: var(--muted2);
+      text-align: center; margin-top: 12px; font-weight: 300;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr;
+      gap: 60px;
+      padding: 64px 80px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-brand img { height: 46px; margin-bottom: 16px; display: block; }
+    .footer-tagline {
+      font-size: 13px; color: var(--muted); line-height: 1.7;
+      margin-bottom: 24px; font-weight: 300; max-width: 280px;
+    }
+    .socials { display: flex; gap: 10px; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); text-decoration: none;
+      font-size: 12px; font-weight: 700;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .social-btn:hover {
+      border-color: var(--blue); color: var(--blue-lt);
+      background: var(--blue-dim);
+    }
+
+    .footer-col h4 {
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue-lt); margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a {
+      font-size: 13px; color: var(--muted);
+      text-decoration: none; font-weight: 300;
+      transition: color 0.2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .footer-col ul a:hover { color: var(--text); }
+
+    .footer-bottom {
+      padding: 20px 80px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 12px; color: var(--muted2); }
+    .footer-slogan {
+      font-family: var(--font-disp);
+      font-size: 18px; letter-spacing: 3px;
+      color: var(--blue); text-transform: uppercase;
+    }
+
+    /* ─── DIVIDERS ───────────────────────────────────────────────── */
+    .blue-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--blue) 50%, transparent 100%);
+      opacity: 0.4;
+    }
+
+    /* ─── MOBILE NAV HAMBURGER (basic) ───────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); transition: all 0.3s;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 80px 40px; }
+      .hero-left::before { left: 20px; }
+
+      .section { padding: 80px 40px; }
+
+      #about { grid-template-columns: 1fr; }
+      .about-photo { min-height: 400px; }
+      .about-content { padding: 60px 40px; }
+
+      #contact { grid-template-columns: 1fr; }
+      .contact-left { padding: 70px 40px; border-right: none; border-bottom: 1px solid var(--border); }
+      .contact-right { padding: 70px 40px; }
+
+      .footer-main { grid-template-columns: 1fr 1fr; padding: 48px 40px 32px; gap: 40px; }
+      .footer-brand { grid-column: 1 / 3; }
+      .footer-bottom { padding: 16px 40px; }
+
+      #navbar { padding: 0 24px; }
+      .nav-center { display: none; }
+      .nav-hamburger { display: flex; }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 280px 220px 220px;
+      }
+      .g-item:first-child { grid-row: 1; grid-column: 1 / 3; }
+
+      #stats { grid-template-columns: repeat(2, 1fr); }
+      .stat:nth-child(2) { border-right: none; }
+
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-headline { font-size: 64px; }
+      .s-title { font-size: 44px; }
+      .section { padding: 64px 24px; }
+      .hero-left { padding: 64px 24px; }
+      #booking { padding: 80px 24px; }
+      .footer-main { grid-template-columns: 1fr; padding: 40px 24px 24px; }
+      .footer-brand { grid-column: 1; }
+      .footer-bottom { padding: 16px 24px; flex-direction: column; gap: 8px; text-align: center; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Grain canvas (injected by JS) -->
+  <canvas id="grain" aria-hidden="true"></canvas>
+
+  <!-- Scroll progress -->
+  <div id="progress" aria-hidden="true"></div>
+
+  <!-- ═══ NAVBAR ══════════════════════════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#inicio" class="nav-logo" aria-label="EM Performance Training — Inicio">
+      <img src="Pictures/Logo/EM- Fondo Oscuro.png" alt="EM Performance Training">
+    </a>
+
+    <div class="nav-center">
+      <a href="#services">
+        <span class="es">Servicios</span>
+        <span class="en" hidden>Services</span>
+      </a>
+      <a href="#about">
+        <span class="es">Sobre Mí</span>
+        <span class="en" hidden>About</span>
+      </a>
+      <a href="#gallery">
+        <span class="es">Galería</span>
+        <span class="en" hidden>Gallery</span>
+      </a>
+      <a href="#contact">
+        <span class="es">Contacto</span>
+        <span class="en" hidden>Contact</span>
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <button class="lang-btn" id="langToggle" aria-label="Toggle language">
+        <span class="es">EN</span>
+        <span class="en" hidden>ES</span>
+      </button>
+      <a href="#booking" class="nav-cta">
+        <span class="es">Agenda Sesión</span>
+        <span class="en" hidden>Book Session</span>
+      </a>
+      <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═════════════════════════════════════════════════════ -->
+  <section id="inicio" aria-label="Hero">
+    <div id="hero">
+      <div class="hero-left">
+        <p class="hero-eyebrow" id="h-eye">
+          <span class="es">EM Performance Training · Puerto Rico</span>
+          <span class="en" hidden>EM Performance Training · Puerto Rico</span>
+        </p>
+        <h1 class="hero-headline" id="h-head">
+          <span class="es">Entrena.<br><span class="line2">Evoluciona.</span></span>
+          <span class="en" hidden>Train.<br><span class="line2">Evolve.</span></span>
+        </h1>
+        <p class="hero-slogan" id="h-slog">
+          <span class="es">Fuerza · Rendimiento · Prevención de Lesiones</span>
+          <span class="en" hidden>Strength · Performance · Injury Prevention</span>
+        </p>
+        <p class="hero-body" id="h-body">
+          <span class="es">Programas de entrenamiento personalizados para atletas y todos los niveles. Ciencia, salud y deporte unidos bajo un mismo techo en Puerto Rico.</span>
+          <span class="en" hidden>Personalized training programs for athletes and all fitness levels. Science, health, and sport united under one roof in Puerto Rico.</span>
+        </p>
+        <div class="hero-tags" id="h-tags">
+          <span class="hero-tag">🏀 Basketball</span>
+          <span class="hero-tag">
+            <span class="es">1-a-1 Personal</span>
+            <span class="en" hidden>1-on-1 Personal</span>
+          </span>
+          <span class="hero-tag">
+            <span class="es">Coaching Online</span>
+            <span class="en" hidden>Online Coaching</span>
+          </span>
+        </div>
+        <div class="hero-btns" id="h-btns">
+          <a href="#booking" class="btn-primary">
+            <span class="es">Agenda Tu Consulta</span>
+            <span class="en" hidden>Book Your Consultation</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#services" class="btn-outline">
+            <span class="es">Ver Servicios</span>
+            <span class="en" hidden>Our Services</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-right" aria-hidden="true">
+        <img src="Pictures/Coach/IMG_6502.jpeg" alt="Edwin Morales — EM Performance Training">
+        <div class="hero-badge">
+          <div class="bgl">Slogan</div>
+          <div class="bgt">Trust<br>Your<br>Work</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ═════════════════════════════════════════════════════ -->
+  <div id="stats" role="region" aria-label="Stats">
+    <div class="stat">
+      <div class="stat-num">
+        <span class="counter" data-target="5">0</span>+
+      </div>
+      <div class="stat-label">
+        <span class="es">Años de Experiencia</span>
+        <span class="en" hidden>Years of Experience</span>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">
+        <span class="counter" data-target="4">0</span>
+      </div>
+      <div class="stat-label">
+        <span class="es">Deportes Trabajados</span>
+        <span class="en" hidden>Sports Trained</span>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">🏆</div>
+      <div class="stat-label">
+        <span class="es">Campeón Nacional</span>
+        <span class="en" hidden>National Champion</span>
+      </div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">
+        <span class="counter" data-target="4">0</span>
+      </div>
+      <div class="stat-label">
+        <span class="es">Años con Gigantes de Carolina</span>
+        <span class="en" hidden>Years with Gigantes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="blue-rule"></div>
+
+  <!-- ═══ SERVICES ══════════════════════════════════════════════════ -->
+  <section id="services" class="section" aria-label="Services">
+    <div class="reveal">
+      <p class="s-eye">
+        <span class="es">Lo Que Ofrecemos</span>
+        <span class="en" hidden>What We Offer</span>
+      </p>
+      <h2 class="s-title">
+        <span class="es">Nuestros<br><span class="accent">Servicios</span></span>
+        <span class="en" hidden>Our<br><span class="accent">Services</span></span>
+      </h2>
+      <p class="s-sub">
+        <span class="es">Cada programa está diseñado para tu objetivo específico — ya seas atleta de alto rendimiento o estés comenzando tu viaje hacia una vida más saludable.</span>
+        <span class="en" hidden>Every program is built for your specific goal — whether you're a high-performance athlete or just starting your journey to a healthier life.</span>
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <div class="svc reveal reveal-d1">
+        <div class="svc-num">01</div>
+        <span class="svc-icon">🏋️</span>
+        <div class="svc-name">
+          <span class="es">Entrenamiento Personalizado</span>
+          <span class="en" hidden>Personalized Training</span>
+        </div>
+        <p class="svc-desc">
+          <span class="es">Programas diseñados exclusivamente para ti — prescripción individualizada adaptada a tus metas, condición física y estilo de vida. Atención total de Edwin en cada sesión.</span>
+          <span class="en" hidden>Programs designed exclusively for you — individualized prescription adapted to your goals, fitness level, and lifestyle. Edwin's complete focus on every session.</span>
+        </p>
+        <span class="svc-tag">
+          <span class="es">Prescripción Individualizada</span>
+          <span class="en" hidden>Individualized Prescription</span>
+        </span>
+      </div>
+
+      <div class="svc reveal reveal-d2">
+        <div class="svc-num">02</div>
+        <span class="svc-icon">🏀</span>
+        <div class="svc-name">
+          <span class="es">Rendimiento Deportivo</span>
+          <span class="en" hidden>Sports Performance</span>
+        </div>
+        <p class="svc-desc">
+          <span class="es">Entrenamiento especializado para atletas de basketball y otros deportes. Velocidad, fuerza explosiva, agilidad y prevención de lesiones a nivel profesional.</span>
+          <span class="en" hidden>Specialized training for basketball athletes and other sports. Speed, explosive strength, agility, and injury prevention at a professional level.</span>
+        </p>
+        <span class="svc-tag">
+          <span class="es">Basketball · Voleibol · Fútbol</span>
+          <span class="en" hidden>Basketball · Volleyball · Soccer</span>
+        </span>
+      </div>
+
+      <div class="svc reveal reveal-d3">
+        <div class="svc-num">03</div>
+        <span class="svc-icon">👥</span>
+        <div class="svc-name">
+          <span class="es">Sub Grupos</span>
+          <span class="en" hidden>Sub Groups</span>
+        </div>
+        <p class="svc-desc">
+          <span class="es">La energía del entrenamiento en grupo con la atención personalizada que mereces. Sub grupos para máxima efectividad y conexión.</span>
+          <span class="en" hidden>The energy of group training with the personal attention you deserve. Sub groups for maximum effectiveness and connection.</span>
+        </p>
+        <span class="svc-tag">
+          <span class="es">Sub Grupos · Sesiones Compartidas</span>
+          <span class="en" hidden>Sub Groups · Shared Sessions</span>
+        </span>
+      </div>
+
+      <div class="svc reveal reveal-d4">
+        <div class="svc-num">04</div>
+        <span class="svc-icon">💻</span>
+        <div class="svc-name">
+          <span class="es">Coaching Online</span>
+          <span class="en" hidden>Online Coaching</span>
+        </div>
+        <p class="svc-desc">
+          <span class="es">Entrena con Edwin desde donde estés. Programas personalizados, seguimiento continuo y sesiones virtuales vía Zoom para clientes fuera de Puerto Rico.</span>
+          <span class="en" hidden>Train with Edwin from anywhere. Personalized programs, ongoing tracking, and virtual sessions via Zoom for clients outside Puerto Rico.</span>
+        </p>
+        <span class="svc-tag">
+          <span class="es">Zoom · Remoto · Flexible</span>
+          <span class="en" hidden>Zoom · Remote · Flexible</span>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <div class="blue-rule"></div>
+
+  <!-- ═══ ABOUT ══════════════════════════════════════════════════════ -->
+  <section id="about" aria-label="About Edwin">
+    <div class="about-photo">
+      <img src="Pictures/Coach/IMG_6495.jpeg" alt="Edwin E. Morales Andino — Coach">
+      <div class="about-frame" aria-hidden="true"></div>
+      <div class="about-cred">
+        <span>
+          <span class="es">Preparador Físico Licenciado</span>
+          <span class="en" hidden>Licensed Fitness Instructor</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="about-content">
+      <div class="reveal">
+        <p class="s-eye">
+          <span class="es">Preparador Físico</span>
+          <span class="en" hidden>Strength &amp; Conditioning Coach</span>
+        </p>
+        <h2 class="s-title">Edwin E.<br>Morales<br><span class="accent">Andino</span></h2>
+      </div>
+
+      <p class="s-sub reveal reveal-d1" style="max-width:100%;">
+        <span class="es">EM Performance Training es un espacio donde la ciencia, la salud y el deporte se unen. Creamos programas de entrenamiento personalizados adaptados a cada objetivo, ya sea mejorar la salud, prevenir lesiones u optimizar el rendimiento deportivo.</span>
+        <span class="en" hidden>EM Performance Training is a space where science, health, and sport unite. We create personalized training programs tailored to each goal — whether improving health, preventing injuries, or optimizing athletic performance.</span>
+      </p>
+
+      <p style="font-size:14px;color:var(--muted);line-height:1.75;margin-top:14px;font-weight:300;" class="reveal reveal-d2">
+        <span class="es">Trabajamos con clientes de todas las edades y atletas de todos los niveles, brindando una experiencia integral enfocada en el bienestar, el desarrollo físico y la excelencia deportiva.</span>
+        <span class="en" hidden>We work with clients of all ages and athletes of all levels, providing a comprehensive experience focused on well-being, physical development, and sporting excellence.</span>
+      </p>
+
+      <div class="creds reveal reveal-d3">
+        <div class="cred-item">
+          <span class="es">Instructor de Aptitud Física Licenciado</span>
+          <span class="en" hidden>Licensed Physical Fitness Instructor</span>
+        </div>
+        <div class="cred-item">
+          <span class="es">Bachillerato en Entrenamiento Físico y Deportivo</span>
+          <span class="en" hidden>Bachelor's in Physical and Sports Training</span>
+        </div>
+        <div class="cred-item">
+          <span class="es">5+ años — desde los 12 años en adelante</span>
+          <span class="en" hidden>5+ years — working with ages 12 and up</span>
+        </div>
+      </div>
+
+      <div class="achievements reveal reveal-d4">
+        <div class="ach">
+          <span class="ach-icon">🏆</span>
+          <span>
+            <span class="es"><strong>Campeón Nacional</strong> — Preparador físico del programa de baloncesto femenino de Saint Francis (buzzer beater)</span>
+            <span class="en" hidden><strong>National Champion</strong> — Strength coach of Saint Francis women's basketball program (buzzer beater championship)</span>
+          </span>
+        </div>
+        <div class="ach">
+          <span class="ach-icon">🏀</span>
+          <span>
+            <span class="es"><strong>4 años</strong> como preparador físico de las <strong>Gigantes de Carolina</strong> — Liga de Baloncesto Profesional Femenino (LBPF)</span>
+            <span class="en" hidden><strong>4 years</strong> as strength coach for the <strong>Gigantes de Carolina</strong> — Women's Professional Basketball League (LBPF)</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GALLERY ════════════════════════════════════════════════════ -->
+  <section id="gallery" class="section" aria-label="Gallery">
+    <div class="reveal">
+      <p class="s-eye">
+        <span class="es">En Acción</span>
+        <span class="en" hidden>In Action</span>
+      </p>
+      <h2 class="s-title">
+        <span class="es">El Trabajo <span class="accent">Habla</span></span>
+        <span class="en" hidden>The Work <span class="accent">Speaks</span></span>
+      </h2>
+    </div>
+
+    <div class="gallery-grid reveal reveal-d1">
+      <!-- BIG: gym 1-on-1 training (spans 2 rows) -->
+      <div class="g-item">
+        <img src="Pictures/Training/IMG_6498.jpeg" alt="Entrenamiento personalizado en el gimnasio EM Performance">
+        <div class="g-label">
+          <span class="es">Entrenamiento Personalizado</span>
+          <span class="en" hidden>Personalized Training</span>
+        </div>
+      </div>
+      <!-- Top right: Gigantes arena (moved from big slot) -->
+      <div class="g-item">
+        <img src="Pictures/Training/IMG_6493.jpeg" alt="Edwin entrenando a las Gigantes de Carolina">
+        <div class="g-label">
+          <span class="es">Gigantes de Carolina · LBPF</span>
+          <span class="en" hidden>Gigantes de Carolina · LBPF</span>
+        </div>
+      </div>
+      <!-- Top right 2: tunnel celebration — special college moment -->
+      <div class="g-item">
+        <img src="Pictures/Training/IMG_6500.jpeg" alt="Edwin con su equipo — momento especial en el colegio">
+        <div class="g-label">
+          <span class="es">Con el Equipo · Colegio</span>
+          <span class="en" hidden>With the Team · College</span>
+        </div>
+      </div>
+      <!-- Bottom right 1: sub group training with mural -->
+      <div class="g-item">
+        <img src="Pictures/Training/IMG_6499.jpeg" alt="Sub grupos entrenando en EM Performance">
+        <div class="g-label">
+          <span class="es">Sub Grupos · EM Performance</span>
+          <span class="en" hidden>Sub Groups · EM Performance</span>
+        </div>
+      </div>
+      <!-- Bottom right 2: Saint Francis college photo -->
+      <div class="g-item">
+        <img src="Pictures/Coach/IMG_6504.jpeg" alt="Edwin Morales — Preparador físico en Saint Francis">
+        <div class="g-label">
+          <span class="es">Saint Francis · Preparación Física</span>
+          <span class="en" hidden>Saint Francis · Strength Coach</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="blue-rule"></div>
+
+  <!-- ═══ BOOKING ════════════════════════════════════════════════════ -->
+  <section id="booking" aria-label="Book a consultation">
+    <div class="booking-inner">
+      <div class="booking-pill reveal">
+        <span>
+          📅&nbsp;
+          <span class="es">Consulta Virtual · 100% Gratis · 15 Minutos</span>
+          <span class="en" hidden>Virtual Consultation · 100% Free · 15 Minutes</span>
+        </span>
+      </div>
+
+      <h2 class="s-title reveal reveal-d1" style="font-size:clamp(52px,5.5vw,80px);">
+        <span class="es">Agenda Tu<br><span class="accent">Consulta</span></span>
+        <span class="en" hidden>Book Your<br><span class="accent">Consultation</span></span>
+      </h2>
+      <p class="s-sub reveal reveal-d2" style="margin:0 auto;">
+        <span class="es">15 minutos con Edwin para hablar sobre tus metas, evaluar tu situación y diseñar el plan correcto para ti. Sin compromiso.</span>
+        <span class="en" hidden>15 minutes with Edwin to talk about your goals, assess your situation, and design the right plan for you. No commitment.</span>
+      </p>
+
+      <div class="calendly-box reveal reveal-d3">
+        <!--
+          ╔══════════════════════════════════════════════════════════╗
+          ║  CALENDLY EMBED — Replace the placeholder below with:   ║
+          ║                                                          ║
+          ║  <div class="calendly-inline-widget"                    ║
+          ║       data-url="https://calendly.com/YOUR_LINK"         ║
+          ║       style="min-width:320px;height:630px;">            ║
+          ║  </div>                                                  ║
+          ║  <script src="https://assets.calendly.com/assets/       ║
+          ║  external/widget.js"></script>                          ║
+          ╚══════════════════════════════════════════════════════════╝
+        -->
+        <span class="cal-icon">📆</span>
+        <div class="cal-title">
+          <span class="es">Escoge Tu Horario</span>
+          <span class="en" hidden>Choose Your Time</span>
+        </div>
+        <p class="cal-sub">
+          <span class="es">Widget de Calendly — Edwin compartirá el enlace pronto</span>
+          <span class="en" hidden>Calendly widget — Edwin will share the link soon</span>
+        </p>
+        <a href="#contact" class="btn-primary" style="display:inline-flex;">
+          <span class="es">Contáctanos Mientras Tanto</span>
+          <span class="en" hidden>Contact Us In The Meantime</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <p class="zoom-note">
+          🎥&nbsp;
+          <span class="es">La sesión se realiza por Zoom — recibirás el enlace por email</span>
+          <span class="en" hidden>Session held via Zoom — you'll receive the link by email</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ════════════════════════════════════════════════════ -->
+  <section id="contact" aria-label="Contact">
+    <div class="contact-left">
+      <div class="reveal">
+        <p class="s-eye">
+          <span class="es">¿Tienes Preguntas?</span>
+          <span class="en" hidden>Have Questions?</span>
+        </p>
+        <h2 class="s-title">
+          <span class="es">Contác<span class="accent">tanos</span></span>
+          <span class="en" hidden>Get In <span class="accent">Touch</span></span>
+        </h2>
+        <p class="s-sub" style="max-width:100%;">
+          <span class="es">¿Prefieres escribirnos directamente? Llena el formulario o encuéntranos en nuestras redes.</span>
+          <span class="en" hidden>Prefer to write to us directly? Fill out the form or find us on our social channels.</span>
+        </p>
+      </div>
+
+      <div class="contact-links">
+        <a href="https://www.instagram.com/emperformancetraining_" class="c-link reveal reveal-d1" target="_blank" rel="noopener">
+          <div class="c-link-icon">📷</div>
+          <div>
+            <div class="c-link-lbl">Instagram</div>
+            <div class="c-link-val">@emperformancetraining_</div>
+          </div>
+        </a>
+        <a href="https://share.google/BzFHh5S5sEVBT8S49" class="c-link reveal reveal-d2" target="_blank" rel="noopener">
+          <div class="c-link-icon">📍</div>
+          <div>
+            <div class="c-link-lbl">
+              <span class="es">Ubicación · Puerto Rico</span>
+              <span class="en" hidden>Location · Puerto Rico</span>
+            </div>
+            <div class="c-link-val">
+              <span class="es">Ver en Google Maps →</span>
+              <span class="en" hidden>View on Google Maps →</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <div class="reveal">
+        <p class="s-eye" style="margin-bottom:28px;">
+          <span class="es">Envíanos un Mensaje</span>
+          <span class="en" hidden>Send Us a Message</span>
+        </p>
+      </div>
+
+      <!-- Replace action with your Formspree endpoint: https://formspree.io/f/YOUR_ID -->
+      <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" id="contactForm">
+        <div class="form-row">
+          <div class="fg reveal reveal-d1">
+            <label for="fname">
+              <span class="es">Nombre</span>
+              <span class="en" hidden>Name</span>
+            </label>
+            <input type="text" id="fname" name="name" required
+              placeholder="Tu nombre">
+          </div>
+          <div class="fg reveal reveal-d2">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" name="email" required
+              placeholder="tu@email.com">
+          </div>
+        </div>
+        <div class="fg reveal reveal-d3">
+          <label for="fservice">
+            <span class="es">Servicio de Interés</span>
+            <span class="en" hidden>Service of Interest</span>
+          </label>
+          <select id="fservice" name="service">
+            <!-- Populated by setLang() -->
+          </select>
+        </div>
+        <div class="fg reveal reveal-d4">
+          <label for="fmsg">
+            <span class="es">Mensaje</span>
+            <span class="en" hidden>Message</span>
+          </label>
+          <textarea id="fmsg" name="message" rows="5" required
+            placeholder="Cuéntanos sobre tus metas o preguntas..."></textarea>
+        </div>
+        <button type="submit" class="form-submit reveal reveal-d5">
+          <span class="es">Enviar Mensaje</span>
+          <span class="en" hidden>Send Message</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <p class="form-note reveal reveal-d6">
+          <span class="es">Te respondemos en menos de 24 horas ✓</span>
+          <span class="en" hidden>We respond within 24 hours ✓</span>
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-main">
+      <div class="footer-brand">
+        <img src="Pictures/Logo/EM- Fondo Oscuro.png" alt="EM Performance Training">
+        <p class="footer-tagline">
+          <span class="es">Donde la ciencia, la salud y el deporte se unen. Entrenamiento personalizado para atletas y todos los niveles en Puerto Rico.</span>
+          <span class="en" hidden>Where science, health, and sport unite. Personalized training for athletes and all levels in Puerto Rico.</span>
+        </p>
+        <div class="socials">
+          <a href="https://www.instagram.com/emperformancetraining_" class="social-btn" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>
+          <span class="es">Servicios</span>
+          <span class="en" hidden>Services</span>
+        </h4>
+        <ul>
+          <li><a href="#services">
+            <span class="es">Entrenamiento Personalizado</span>
+            <span class="en" hidden>Personalized Training</span>
+          </a></li>
+          <li><a href="#services">
+            <span class="es">Rendimiento Deportivo</span>
+            <span class="en" hidden>Sports Performance</span>
+          </a></li>
+          <li><a href="#services">
+            <span class="es">Sub Grupos</span>
+            <span class="en" hidden>Sub Groups</span>
+          </a></li>
+          <li><a href="#services">
+            <span class="es">Coaching Online</span>
+            <span class="en" hidden>Online Coaching</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>
+          <span class="es">Contacto</span>
+          <span class="en" hidden>Contact</span>
+        </h4>
+        <ul>
+          <li><a href="#booking">📅
+            <span class="es">Agenda tu consulta</span>
+            <span class="en" hidden>Book your consultation</span>
+          </a></li>
+          <li><a href="https://www.instagram.com/emperformancetraining_" target="_blank" rel="noopener">📷 @emperformancetraining_</a></li>
+          <li><a href="https://share.google/BzFHh5S5sEVBT8S49" target="_blank" rel="noopener">📍 Carolina, Puerto Rico</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        <span class="es">© 2025 EM Performance Training. Todos los derechos reservados.</span>
+        <span class="en" hidden>© 2025 EM Performance Training. All rights reserved.</span>
+      </p>
+      <p class="footer-slogan">"Trust Your Work"</p>
+    </div>
+  </footer>
+
+  <!-- ═══ JAVASCRIPT ═════════════════════════════════════════════════ -->
+  <script>
+    /* ── Grain texture ─────────────────────────────────────────── */
+    (function () {
+      const canvas = document.getElementById('grain');
+      const ctx = canvas.getContext('2d');
+      let frame;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function drawGrain() {
+        const w = canvas.width, h = canvas.height;
+        const img = ctx.createImageData(w, h);
+        const d = img.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const v = Math.random() * 255 | 0;
+          d[i] = d[i+1] = d[i+2] = v;
+          d[i+3] = 255;
+        }
+        ctx.putImageData(img, 0, 0);
+        frame = requestAnimationFrame(drawGrain);
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      drawGrain();
+    })();
+
+    /* ── Scroll progress bar ───────────────────────────────────── */
+    const progress = document.getElementById('progress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+
+    /* ── Navbar scroll state ───────────────────────────────────── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ── Hero staggered entrance ───────────────────────────────── */
+    const heroEls = [
+      document.getElementById('h-eye'),
+      document.getElementById('h-head'),
+      document.getElementById('h-slog'),
+      document.getElementById('h-body'),
+      document.getElementById('h-tags'),
+      document.getElementById('h-btns'),
+    ];
+    heroEls.forEach((el, i) => {
+      if (!el) return;
+      el.style.transition = `opacity 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.1 + 0.2}s, transform 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 0.1 + 0.2}s`;
+      requestAnimationFrame(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+    });
+
+    /* ── Intersection observer (reveal + stats) ────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── Animated stat counters ────────────────────────────────── */
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in-view');
+        const counters = e.target.querySelectorAll('.counter');
+        counters.forEach(counter => {
+          const target = +counter.dataset.target;
+          const duration = 1200;
+          const step = target / (duration / 16);
+          let current = 0;
+          const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            counter.textContent = Math.floor(current);
+            if (current >= target) clearInterval(timer);
+          }, 16);
+        });
+        counterObserver.unobserve(e.target);
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('#stats .stat').forEach(el => counterObserver.observe(el));
+
+    /* ── Language toggle ───────────────────────────────────────── */
+    let lang = 'es';
+    const langBtn = document.getElementById('langToggle');
+
+    const serviceOptions = {
+      es: [
+        'Entrenamiento Personalizado',
+        'Rendimiento Deportivo',
+        'Sub Grupos',
+        'Coaching Online',
+        'General / Otro'
+      ],
+      en: [
+        'Personalized Training',
+        'Sports Performance',
+        'Sub Groups',
+        'Online Coaching',
+        'General / Other'
+      ]
+    };
+
+    function setLang(l) {
+      lang = l;
+      document.documentElement.lang = l;
+      document.documentElement.dataset.lang = l;
+      document.querySelectorAll('.es').forEach(el => el.hidden = (l !== 'es'));
+      document.querySelectorAll('.en').forEach(el => el.hidden = (l !== 'en'));
+
+      // Repopulate service select with correct language options
+      const select = document.getElementById('fservice');
+      if (select) {
+        const currentIndex = select.selectedIndex;
+        select.innerHTML = serviceOptions[l]
+          .map(opt => `<option>${opt}</option>`)
+          .join('');
+        select.selectedIndex = Math.max(0, Math.min(currentIndex, serviceOptions[l].length - 1));
+      }
+
+      // Update placeholder text
+      const msg = document.getElementById('fmsg');
+      if (msg) msg.placeholder = l === 'es'
+        ? 'Cuéntanos sobre tus metas o preguntas...'
+        : 'Tell us about your goals or questions...';
+      const fname = document.getElementById('fname');
+      if (fname) fname.placeholder = l === 'es' ? 'Tu nombre' : 'Your name';
+    }
+
+    langBtn.addEventListener('click', () => {
+      setLang(lang === 'es' ? 'en' : 'es');
+    });
+
+    // Init — show ES
+    setLang('es');
+
+    /* ── Smooth scroll for anchor links ────────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const offset = target.getBoundingClientRect().top + window.scrollY - 68;
+          window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+      });
+    });
+
+    /* ── Form submission feedback ──────────────────────────────── */
+    const form = document.getElementById('contactForm');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        const btn = form.querySelector('.form-submit');
+        btn.textContent = lang === 'es' ? 'Enviando...' : 'Sending...';
+        btn.disabled = true;
+      });
+    }
+  </script>
+
+</body>
+</html>
