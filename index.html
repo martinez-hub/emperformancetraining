@@ -645,25 +645,6 @@
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--blue), transparent);
     }
-    .days-grid {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;
-    }
-    .day-check { display: none; }
-    .day-label {
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--muted); cursor: pointer;
-      transition: all 0.2s;
-      user-select: none;
-    }
-    .day-check:checked + .day-label {
-      background: var(--blue-dim);
-      border-color: var(--blue);
-      color: var(--blue-lt);
-    }
-    .day-label:hover { border-color: var(--blue-bdr); color: var(--text); }
 
     @media (max-width: 600px) {
       .booking-form { padding: 32px 20px 32px; }
@@ -1481,8 +1462,10 @@
         <span class="en" hidden>15 minutes with Edwin to talk about your goals, assess your situation, and design the right plan for you. No commitment.</span>
       </p>
 
-      <form class="booking-form reveal reveal-d3" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" id="bookingForm">
-        <input type="hidden" name="_subject" value="Solicitud de Consulta — EM Performance">
+      <form class="booking-form reveal reveal-d3" action="https://formsubmit.co/Emperformancetraining2.0@gmail.com" method="POST" id="bookingForm">
+        <input type="hidden" name="_subject" value="Solicitud de Consulta — EM Performance Training">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
 
         <div class="form-row" style="margin-bottom:14px;">
           <div class="fg reveal reveal-d1" style="margin-bottom:0;">
@@ -1490,7 +1473,7 @@
               <span class="es">Nombre</span>
               <span class="en" hidden>Name</span>
             </label>
-            <input type="text" id="bname" name="nombre" required
+            <input type="text" id="bname" name="Nombre" required
               placeholder="Tu nombre">
           </div>
           <div class="fg reveal reveal-d2" style="margin-bottom:0;">
@@ -1498,62 +1481,36 @@
               <span class="es">Teléfono o Email</span>
               <span class="en" hidden>Phone or Email</span>
             </label>
-            <input type="text" id="bcontact" name="contacto" required
+            <input type="text" id="bcontact" name="Contacto" required
               placeholder="Para que Edwin te contacte">
           </div>
         </div>
 
         <div class="fg reveal reveal-d3">
-          <label>
-            <span class="es">Días disponibles</span>
-            <span class="en" hidden>Available days</span>
+          <label for="bavailability">
+            <span class="es">¿Cuándo estás disponible?</span>
+            <span class="en" hidden>When are you available?</span>
           </label>
-          <div class="days-grid">
-            <input class="day-check" type="checkbox" id="d1" name="dias[]" value="Lunes / Monday"><label class="day-label" for="d1"><span class="es">Lun</span><span class="en" hidden>Mon</span></label>
-            <input class="day-check" type="checkbox" id="d2" name="dias[]" value="Martes / Tuesday"><label class="day-label" for="d2"><span class="es">Mar</span><span class="en" hidden>Tue</span></label>
-            <input class="day-check" type="checkbox" id="d3" name="dias[]" value="Miércoles / Wednesday"><label class="day-label" for="d3"><span class="es">Mié</span><span class="en" hidden>Wed</span></label>
-            <input class="day-check" type="checkbox" id="d4" name="dias[]" value="Jueves / Thursday"><label class="day-label" for="d4"><span class="es">Jue</span><span class="en" hidden>Thu</span></label>
-            <input class="day-check" type="checkbox" id="d5" name="dias[]" value="Viernes / Friday"><label class="day-label" for="d5"><span class="es">Vie</span><span class="en" hidden>Fri</span></label>
-            <input class="day-check" type="checkbox" id="d6" name="dias[]" value="Sábado / Saturday"><label class="day-label" for="d6"><span class="es">Sáb</span><span class="en" hidden>Sat</span></label>
-            <input class="day-check" type="checkbox" id="d7" name="dias[]" value="Domingo / Sunday"><label class="day-label" for="d7"><span class="es">Dom</span><span class="en" hidden>Sun</span></label>
-          </div>
+          <textarea id="bavailability" name="Disponibilidad" rows="3" required
+            placeholder="Ej: Lunes y miércoles en la mañana, viernes en la tarde..."></textarea>
         </div>
 
         <div class="fg reveal reveal-d4">
-          <label for="btime">
-            <span class="es">Horario preferido</span>
-            <span class="en" hidden>Preferred time</span>
-          </label>
-          <select id="btime" name="horario">
-            <option class="es">Mañana (8am – 12pm)</option>
-            <option class="es">Tarde (12pm – 5pm)</option>
-            <option class="es">Noche (5pm – 8pm)</option>
-            <option class="en" hidden>Morning (8am – 12pm)</option>
-            <option class="en" hidden>Afternoon (12pm – 5pm)</option>
-            <option class="en" hidden>Evening (5pm – 8pm)</option>
-          </select>
-        </div>
-
-        <div class="fg reveal reveal-d5">
           <label for="bmsg">
             <span class="es">¿Sobre qué quieres hablar? (opcional)</span>
             <span class="en" hidden>What would you like to discuss? (optional)</span>
           </label>
-          <textarea id="bmsg" name="mensaje" rows="3"
+          <textarea id="bmsg" name="Mensaje" rows="3"
             placeholder="Cuéntanos sobre tus metas..."></textarea>
         </div>
 
-        <button type="submit" class="form-submit reveal reveal-d6">
+        <button type="submit" class="form-submit reveal reveal-d5">
           <span class="es">Solicitar Llamada</span>
           <span class="en" hidden>Request a Call</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <p class="form-note reveal reveal-d6">
-          <span class="es">Edwin te contactará en menos de 24 horas ✓</span>
-          <span class="en" hidden>Edwin will reach out within 24 hours ✓</span>
-        </p>
       </form>
     </div>
   </section>
@@ -1666,8 +1623,8 @@
 
     <div class="footer-bottom">
       <p class="footer-copy">
-        <span class="es">© 2025 EM Performance Training. Todos los derechos reservados.</span>
-        <span class="en" hidden>© 2025 EM Performance Training. All rights reserved.</span>
+        <span class="es">© 2026 EM Performance Training. Todos los derechos reservados. · Diseñado por <a href="https://github.com/martinez-hub" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;border-bottom:1px solid var(--muted2);">Josue Martinez</a></span>
+        <span class="en" hidden>© 2026 EM Performance Training. All rights reserved. · Built by <a href="https://github.com/martinez-hub" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;border-bottom:1px solid var(--muted2);">Josue Martinez</a></span>
       </p>
       <p class="footer-slogan">"Trust Your Work"</p>
     </div>
@@ -1774,10 +1731,6 @@
     let lang = 'es';
     const langBtn = document.getElementById('langToggle');
 
-    const timeOptions = {
-      es: ['Mañana (8am – 12pm)','Tarde (12pm – 5pm)','Noche (5pm – 8pm)'],
-      en: ['Morning (8am – 12pm)','Afternoon (12pm – 5pm)','Evening (5pm – 8pm)']
-    };
 
     function setLang(l) {
       lang = l;
@@ -1786,19 +1739,15 @@
       document.querySelectorAll('.es').forEach(el => el.hidden = (l !== 'es'));
       document.querySelectorAll('.en').forEach(el => el.hidden = (l !== 'en'));
 
-      // Repopulate booking time select
-      const btime = document.getElementById('btime');
-      if (btime) {
-        const ti = btime.selectedIndex;
-        btime.innerHTML = timeOptions[l].map(opt => `<option>${opt}</option>`).join('');
-        btime.selectedIndex = Math.max(0, Math.min(ti, timeOptions[l].length - 1));
-      }
-
       // Update placeholder text
       const bname = document.getElementById('bname');
       if (bname) bname.placeholder = l === 'es' ? 'Tu nombre' : 'Your name';
       const bcontact = document.getElementById('bcontact');
       if (bcontact) bcontact.placeholder = l === 'es' ? 'Para que Edwin te contacte' : 'So Edwin can reach you';
+      const bavail = document.getElementById('bavailability');
+      if (bavail) bavail.placeholder = l === 'es'
+        ? 'Ej: Lunes y miércoles en la mañana, viernes en la tarde...'
+        : 'E.g.: Monday and Wednesday mornings, Friday afternoons...';
       const bmsg = document.getElementById('bmsg');
       if (bmsg) bmsg.placeholder = l === 'es' ? 'Cuéntanos sobre tus metas...' : 'Tell us about your goals...';
     }
