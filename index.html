@@ -275,7 +275,7 @@
       background: var(--bg2);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      display: grid; grid-template-columns: repeat(4,1fr);
+      display: grid; grid-template-columns: repeat(3,1fr);
     }
     .stat {
       padding: 36px 16px; text-align: center;
@@ -882,8 +882,8 @@
       }
       .g-item:first-child { grid-row: 1; grid-column: 1 / 3; }
 
-      #stats { grid-template-columns: repeat(2, 1fr); }
-      .stat:nth-child(2) { border-right: none; }
+      #stats { grid-template-columns: repeat(3, 1fr); }
+      .stat:nth-child(3) { border-right: none; }
 
       .services-grid { grid-template-columns: 1fr; }
     }
@@ -894,6 +894,9 @@
       .section { padding: 64px 24px; }
       .hero-left { padding: 64px 24px; }
       .hero-slogan { font-size: 10px; letter-spacing: 1.8px; }
+      .stat { padding: 28px 8px; }
+      .stat-num { font-size: 36px; }
+      .stat-label { font-size: 9px; letter-spacing: 1px; }
       #booking { padding: 80px 24px; }
       .footer-main { grid-template-columns: 1fr; padding: 40px 24px 24px; }
       .footer-brand { grid-column: 1; }
@@ -1061,13 +1064,6 @@
       </div>
     </div>
     <div class="stat">
-      <div class="stat-num">🛡️</div>
-      <div class="stat-label">
-        <span class="es">Prevención de Lesiones</span>
-        <span class="en" hidden>Injury Prevention</span>
-      </div>
-    </div>
-    <div class="stat">
       <div class="stat-num">🏆</div>
       <div class="stat-label">
         <span class="es">Campeón Nacional</span>
@@ -1079,7 +1075,7 @@
         <span class="counter" data-target="4">0</span>
       </div>
       <div class="stat-label">
-        <span class="es">Años con Gigantes de Carolina</span>
+        <span class="es">Años con Gigantes</span>
         <span class="en" hidden>Years with Gigantes</span>
       </div>
     </div>
@@ -1425,8 +1421,8 @@
           <span class="en" hidden>Calendly widget — Edwin will share the link soon</span>
         </p>
         <a href="#contact" class="btn-primary" style="display:inline-flex;">
-          <span class="es">Contáctanos Mientras Tanto</span>
-          <span class="en" hidden>Contact Us In The Meantime</span>
+          <span class="es">Contáctanos</span>
+          <span class="en" hidden>Contact Us</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
