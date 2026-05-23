@@ -781,15 +781,69 @@
       opacity: 0.4;
     }
 
-    /* ─── MOBILE NAV HAMBURGER (basic) ───────────────────────────── */
+    /* ─── MOBILE NAV HAMBURGER ───────────────────────────────────── */
     .nav-hamburger {
       display: none;
       background: none; border: none; cursor: pointer;
       flex-direction: column; gap: 5px; padding: 4px;
+      z-index: 601;
     }
     .nav-hamburger span {
       display: block; width: 22px; height: 2px;
-      background: var(--text); transition: all 0.3s;
+      background: var(--text); transition: all 0.3s var(--ease);
+    }
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-hamburger.open span:nth-child(2) {
+      opacity: 0; transform: scaleX(0);
+    }
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ─── MOBILE MENU DRAWER ─────────────────────────────────────── */
+    #mobile-menu {
+      display: none;
+      position: fixed; top: var(--nav-h); left: 0; right: 0;
+      background: rgba(6, 9, 15, 0.97);
+      border-bottom: 1px solid var(--blue-bdr);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 499;
+      padding: 32px 24px 40px;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+      pointer-events: none;
+    }
+    #mobile-menu.open {
+      opacity: 1; transform: translateY(0);
+      pointer-events: auto;
+    }
+    .mob-nav-links {
+      display: flex; flex-direction: column;
+      border-top: 1px solid var(--border);
+    }
+    .mob-nav-links a {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+    .mob-nav-links a:hover { color: var(--text); padding-left: 6px; }
+    .mob-nav-links a::after {
+      content: '→'; font-size: 11px;
+      color: var(--blue); opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .mob-nav-links a:hover::after { opacity: 1; }
+    .mob-nav-bottom {
+      margin-top: 28px;
+      display: flex; gap: 12px; align-items: center;
     }
 
     /* ─── RESPONSIVE ─────────────────────────────────────────────── */
@@ -816,6 +870,7 @@
       #navbar { padding: 0 24px; }
       .nav-center { display: none; }
       .nav-hamburger { display: flex; }
+      #mobile-menu { display: flex; flex-direction: column; }
 
       .gallery-grid {
         grid-template-columns: 1fr 1fr;
@@ -893,6 +948,42 @@
       </button>
     </div>
   </nav>
+
+  <!-- ═══ MOBILE MENU ══════════════════════════════════════════════ -->
+  <div id="mobile-menu" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+    <nav class="mob-nav-links">
+      <a href="#philosophy" class="mob-link">
+        <span class="es">Filosofía</span>
+        <span class="en" hidden>Philosophy</span>
+      </a>
+      <a href="#services" class="mob-link">
+        <span class="es">Servicios</span>
+        <span class="en" hidden>Services</span>
+      </a>
+      <a href="#about" class="mob-link">
+        <span class="es">Preparador Físico</span>
+        <span class="en" hidden>About</span>
+      </a>
+      <a href="#gallery" class="mob-link">
+        <span class="es">Galería</span>
+        <span class="en" hidden>Gallery</span>
+      </a>
+      <a href="#contact" class="mob-link">
+        <span class="es">Contacto</span>
+        <span class="en" hidden>Contact</span>
+      </a>
+    </nav>
+    <div class="mob-nav-bottom">
+      <a href="#booking" class="btn-primary mob-link" style="flex:1;justify-content:center;">
+        <span class="es">Agenda Tu Consulta</span>
+        <span class="en" hidden>Book Your Consultation</span>
+      </a>
+      <button class="lang-btn mob-lang" id="langToggleMob" aria-label="Toggle language">
+        <span class="es">EN</span>
+        <span class="en" hidden>ES</span>
+      </button>
+    </div>
+  </div>
 
   <!-- ═══ HERO ═════════════════════════════════════════════════════ -->
   <section id="inicio" aria-label="Hero">
@@ -1657,8 +1748,46 @@
       setLang(lang === 'es' ? 'en' : 'es');
     });
 
+    // Mobile lang button mirrors desktop
+    const langBtnMob = document.getElementById('langToggleMob');
+    if (langBtnMob) {
+      langBtnMob.addEventListener('click', () => {
+        setLang(lang === 'es' ? 'en' : 'es');
+      });
+    }
+
     // Init — show ES
     setLang('es');
+
+    /* ── Mobile menu ───────────────────────────────────────────── */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function toggleMenu(open) {
+      hamburger.classList.toggle('open', open);
+      mobileMenu.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.contains('open');
+      toggleMenu(!isOpen);
+    });
+
+    // Close on any mobile link click
+    document.querySelectorAll('.mob-link').forEach(link => {
+      link.addEventListener('click', () => toggleMenu(false));
+    });
+
+    // Close on outside tap
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.classList.contains('open') &&
+          !mobileMenu.contains(e.target) &&
+          !hamburger.contains(e.target)) {
+        toggleMenu(false);
+      }
+    });
 
     /* ── Smooth scroll for anchor links ────────────────────────── */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
