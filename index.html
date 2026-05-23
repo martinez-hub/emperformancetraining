@@ -630,6 +630,45 @@
       display: flex; align-items: center; justify-content: center; gap: 6px;
     }
 
+    /* ─── BOOKING FORM ───────────────────────────────────────────── */
+    .booking-form {
+      margin-top: 52px;
+      border: 1px solid var(--blue-bdr);
+      background: var(--bg);
+      padding: 48px 40px 44px;
+      position: relative;
+      text-align: left;
+    }
+    .booking-form::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+    .days-grid {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px;
+    }
+    .day-check { display: none; }
+    .day-label {
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .day-check:checked + .day-label {
+      background: var(--blue-dim);
+      border-color: var(--blue);
+      color: var(--blue-lt);
+    }
+    .day-label:hover { border-color: var(--blue-bdr); color: var(--text); }
+
+    @media (max-width: 600px) {
+      .booking-form { padding: 32px 20px 32px; }
+    }
+
     /* ─── CONTACT ────────────────────────────────────────────────── */
     #contact {
       background: var(--bg);
@@ -1045,7 +1084,6 @@
       <div class="hero-right" aria-hidden="true">
         <img src="Pictures/Coach/IMG_6502.jpeg" alt="Edwin Morales — EM Performance Training">
         <div class="hero-badge">
-          <div class="bgl">Slogan</div>
           <div class="bgt">Trust<br>Your<br>Work</div>
         </div>
       </div>
@@ -1075,8 +1113,8 @@
         <span class="counter" data-target="4">0</span>
       </div>
       <div class="stat-label">
-        <span class="es">Años con Gigantes</span>
-        <span class="en" hidden>Years with Gigantes</span>
+        <span class="es">Años con Gigantes de Carolina</span>
+        <span class="en" hidden>Years with Gigantes de Carolina</span>
       </div>
     </div>
   </div>
@@ -1240,12 +1278,12 @@
           <span class="en" hidden>Remote Training</span>
         </div>
         <p class="svc-desc">
-          <span class="es">Entrena con Edwin desde donde estés. Programas personalizados, seguimiento continuo y sesiones virtuales vía Zoom para clientes fuera de Puerto Rico.</span>
-          <span class="en" hidden>Train with Edwin from anywhere. Personalized programs, ongoing tracking, and virtual sessions via Zoom for clients outside Puerto Rico.</span>
+          <span class="es">Entrena con Edwin desde donde estés. Programas personalizados y seguimiento continuo para clientes dentro y fuera de Puerto Rico.</span>
+          <span class="en" hidden>Train with Edwin from anywhere. Personalized programs and ongoing support for clients inside and outside Puerto Rico.</span>
         </p>
         <span class="svc-tag">
-          <span class="es">Zoom · Remoto · Flexible</span>
-          <span class="en" hidden>Zoom · Remote · Flexible</span>
+          <span class="es">Remoto · Flexible · Puerto Rico y Más</span>
+          <span class="en" hidden>Remote · Flexible · Puerto Rico & Beyond</span>
         </span>
       </div>
     </div>
@@ -1295,8 +1333,8 @@
           <span class="en" hidden>Bachelor's in Physical and Sports Training</span>
         </div>
         <div class="cred-item">
-          <span class="es">5+ años — desde los 12 años en adelante</span>
-          <span class="en" hidden>5+ years — working with ages 12 and up</span>
+          <span class="es">Más de 5 años de experiencia con clientes de todas las edades</span>
+          <span class="en" hidden>Over 5 years of experience working with clients of all ages</span>
         </div>
       </div>
 
@@ -1327,8 +1365,8 @@
         <span class="en" hidden>In Action</span>
       </p>
       <h2 class="s-title">
-        <span class="es">El Trabajo <span class="accent">Habla</span></span>
-        <span class="en" hidden>The Work <span class="accent">Speaks</span></span>
+        <span class="es">Dentro del <span class="accent">Proceso</span></span>
+        <span class="en" hidden>Inside the <span class="accent">Process</span></span>
       </h2>
     </div>
 
@@ -1398,41 +1436,80 @@
         <span class="en" hidden>15 minutes with Edwin to talk about your goals, assess your situation, and design the right plan for you. No commitment.</span>
       </p>
 
-      <div class="calendly-box reveal reveal-d3">
-        <!--
-          ╔══════════════════════════════════════════════════════════╗
-          ║  CALENDLY EMBED — Replace the placeholder below with:   ║
-          ║                                                          ║
-          ║  <div class="calendly-inline-widget"                    ║
-          ║       data-url="https://calendly.com/YOUR_LINK"         ║
-          ║       style="min-width:320px;height:630px;">            ║
-          ║  </div>                                                  ║
-          ║  <script src="https://assets.calendly.com/assets/       ║
-          ║  external/widget.js"></script>                          ║
-          ╚══════════════════════════════════════════════════════════╝
-        -->
-        <span class="cal-icon">📆</span>
-        <div class="cal-title">
-          <span class="es">Escoge Tu Horario</span>
-          <span class="en" hidden>Choose Your Time</span>
+      <form class="booking-form reveal reveal-d3" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" id="bookingForm">
+        <input type="hidden" name="_subject" value="Solicitud de Consulta — EM Performance">
+
+        <div class="form-row" style="margin-bottom:14px;">
+          <div class="fg reveal reveal-d1" style="margin-bottom:0;">
+            <label for="bname">
+              <span class="es">Nombre</span>
+              <span class="en" hidden>Name</span>
+            </label>
+            <input type="text" id="bname" name="nombre" required
+              placeholder="Tu nombre">
+          </div>
+          <div class="fg reveal reveal-d2" style="margin-bottom:0;">
+            <label for="bcontact">
+              <span class="es">Teléfono o Email</span>
+              <span class="en" hidden>Phone or Email</span>
+            </label>
+            <input type="text" id="bcontact" name="contacto" required
+              placeholder="Para que Edwin te contacte">
+          </div>
         </div>
-        <p class="cal-sub">
-          <span class="es">Widget de Calendly — Edwin compartirá el enlace pronto</span>
-          <span class="en" hidden>Calendly widget — Edwin will share the link soon</span>
-        </p>
-        <a href="#contact" class="btn-primary" style="display:inline-flex;">
-          <span class="es">Contáctanos</span>
-          <span class="en" hidden>Contact Us</span>
+
+        <div class="fg reveal reveal-d3">
+          <label>
+            <span class="es">Días disponibles</span>
+            <span class="en" hidden>Available days</span>
+          </label>
+          <div class="days-grid">
+            <input class="day-check" type="checkbox" id="d1" name="dias[]" value="Lunes / Monday"><label class="day-label" for="d1"><span class="es">Lun</span><span class="en" hidden>Mon</span></label>
+            <input class="day-check" type="checkbox" id="d2" name="dias[]" value="Martes / Tuesday"><label class="day-label" for="d2"><span class="es">Mar</span><span class="en" hidden>Tue</span></label>
+            <input class="day-check" type="checkbox" id="d3" name="dias[]" value="Miércoles / Wednesday"><label class="day-label" for="d3"><span class="es">Mié</span><span class="en" hidden>Wed</span></label>
+            <input class="day-check" type="checkbox" id="d4" name="dias[]" value="Jueves / Thursday"><label class="day-label" for="d4"><span class="es">Jue</span><span class="en" hidden>Thu</span></label>
+            <input class="day-check" type="checkbox" id="d5" name="dias[]" value="Viernes / Friday"><label class="day-label" for="d5"><span class="es">Vie</span><span class="en" hidden>Fri</span></label>
+            <input class="day-check" type="checkbox" id="d6" name="dias[]" value="Sábado / Saturday"><label class="day-label" for="d6"><span class="es">Sáb</span><span class="en" hidden>Sat</span></label>
+            <input class="day-check" type="checkbox" id="d7" name="dias[]" value="Domingo / Sunday"><label class="day-label" for="d7"><span class="es">Dom</span><span class="en" hidden>Sun</span></label>
+          </div>
+        </div>
+
+        <div class="fg reveal reveal-d4">
+          <label for="btime">
+            <span class="es">Horario preferido</span>
+            <span class="en" hidden>Preferred time</span>
+          </label>
+          <select id="btime" name="horario">
+            <option class="es">Mañana (8am – 12pm)</option>
+            <option class="es">Tarde (12pm – 5pm)</option>
+            <option class="es">Noche (5pm – 8pm)</option>
+            <option class="en" hidden>Morning (8am – 12pm)</option>
+            <option class="en" hidden>Afternoon (12pm – 5pm)</option>
+            <option class="en" hidden>Evening (5pm – 8pm)</option>
+          </select>
+        </div>
+
+        <div class="fg reveal reveal-d5">
+          <label for="bmsg">
+            <span class="es">¿Sobre qué quieres hablar? (opcional)</span>
+            <span class="en" hidden>What would you like to discuss? (optional)</span>
+          </label>
+          <textarea id="bmsg" name="mensaje" rows="3"
+            placeholder="Cuéntanos sobre tus metas..."></textarea>
+        </div>
+
+        <button type="submit" class="form-submit reveal reveal-d6">
+          <span class="es">Solicitar Llamada</span>
+          <span class="en" hidden>Request a Call</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-        </a>
-        <p class="zoom-note">
-          🎥&nbsp;
-          <span class="es">La sesión se realiza por Zoom — recibirás el enlace por email</span>
-          <span class="en" hidden>Session held via Zoom — you'll receive the link by email</span>
+        </button>
+        <p class="form-note reveal reveal-d6">
+          <span class="es">Edwin te contactará en menos de 24 horas ✓</span>
+          <span class="en" hidden>Edwin will reach out within 24 hours ✓</span>
         </p>
-      </div>
+      </form>
     </div>
   </section>
 
@@ -1701,20 +1778,12 @@
     const langBtn = document.getElementById('langToggle');
 
     const serviceOptions = {
-      es: [
-        'Entrenamiento Personalizado',
-        'Rendimiento Deportivo',
-        'Sub Grupos',
-        'Entrenamiento Remoto',
-        'General / Otro'
-      ],
-      en: [
-        'Personalized Training',
-        'Sports Performance',
-        'Sub Groups',
-        'Remote Training',
-        'General / Other'
-      ]
+      es: ['Entrenamiento Personalizado','Rendimiento Deportivo','Sub Grupos','Entrenamiento Remoto','General / Otro'],
+      en: ['Personalized Training','Sports Performance','Sub Groups','Remote Training','General / Other']
+    };
+    const timeOptions = {
+      es: ['Mañana (8am – 12pm)','Tarde (12pm – 5pm)','Noche (5pm – 8pm)'],
+      en: ['Morning (8am – 12pm)','Afternoon (12pm – 5pm)','Evening (5pm – 8pm)']
     };
 
     function setLang(l) {
@@ -1734,6 +1803,14 @@
         select.selectedIndex = Math.max(0, Math.min(currentIndex, serviceOptions[l].length - 1));
       }
 
+      // Repopulate booking time select
+      const btime = document.getElementById('btime');
+      if (btime) {
+        const ti = btime.selectedIndex;
+        btime.innerHTML = timeOptions[l].map(opt => `<option>${opt}</option>`).join('');
+        btime.selectedIndex = Math.max(0, Math.min(ti, timeOptions[l].length - 1));
+      }
+
       // Update placeholder text
       const msg = document.getElementById('fmsg');
       if (msg) msg.placeholder = l === 'es'
@@ -1741,6 +1818,12 @@
         : 'Tell us about your goals or questions...';
       const fname = document.getElementById('fname');
       if (fname) fname.placeholder = l === 'es' ? 'Tu nombre' : 'Your name';
+      const bname = document.getElementById('bname');
+      if (bname) bname.placeholder = l === 'es' ? 'Tu nombre' : 'Your name';
+      const bcontact = document.getElementById('bcontact');
+      if (bcontact) bcontact.placeholder = l === 'es' ? 'Para que Edwin te contacte' : 'So Edwin can reach you';
+      const bmsg = document.getElementById('bmsg');
+      if (bmsg) bmsg.placeholder = l === 'es' ? 'Cuéntanos sobre tus metas...' : 'Tell us about your goals...';
     }
 
     langBtn.addEventListener('click', () => {
@@ -1801,14 +1884,14 @@
     });
 
     /* ── Form submission feedback ──────────────────────────────── */
-    const form = document.getElementById('contactForm');
-    if (form) {
-      form.addEventListener('submit', async (e) => {
+    [document.getElementById('contactForm'), document.getElementById('bookingForm')].forEach(form => {
+      if (!form) return;
+      form.addEventListener('submit', () => {
         const btn = form.querySelector('.form-submit');
         btn.textContent = lang === 'es' ? 'Enviando...' : 'Sending...';
         btn.disabled = true;
       });
-    }
+    });
   </script>
 
 </body>
