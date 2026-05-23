@@ -1627,6 +1627,22 @@
           </svg>
         </button>
       </form>
+
+      <!-- Success state (hidden until form submits) -->
+      <div id="bookingSuccess" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:64px 20px;text-align:center;gap:20px;">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="27" stroke="#1A6BFF" stroke-width="1.5"/>
+          <path d="M16 28l8 8 16-16" stroke="#1A6BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div style="font-family:var(--font-disp);font-size:40px;letter-spacing:3px;text-transform:uppercase;line-height:1;">
+          <span class="es">¡Solicitud Enviada!</span>
+          <span class="en" hidden>Request Sent!</span>
+        </div>
+        <p style="color:var(--muted);font-size:15px;max-width:380px;line-height:1.75;font-weight:300;">
+          <span class="es">Edwin revisará tu mensaje y te contactará pronto.</span>
+          <span class="en" hidden>Edwin will review your message and reach out shortly.</span>
+        </p>
+      </div>
     </div>
   </section>
 
@@ -1922,14 +1938,48 @@
     });
 
     /* ── Form submission feedback ──────────────────────────────── */
-    [document.getElementById('bookingForm')].forEach(form => {
-      if (!form) return;
-      form.addEventListener('submit', () => {
-        const btn = form.querySelector('.form-submit');
-        btn.textContent = lang === 'es' ? 'Enviando...' : 'Sending...';
+    // AJAX form submission — no redirect
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+      bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = bookingForm.querySelector('.form-submit');
+        const originalHTML = btn.innerHTML;
+
+        // Loading state
+        btn.innerHTML = lang === 'es' ? 'Enviando...' : 'Sending...';
         btn.disabled = true;
+
+        try {
+          const res = await fetch('https://formsubmit.co/ajax/Emperformancetraining2.0@gmail.com', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(bookingForm)
+          });
+
+          if (res.ok) {
+            // Hide form, show success message
+            bookingForm.style.display = 'none';
+            const success = document.getElementById('bookingSuccess');
+            success.style.display = 'flex';
+            // Keep lang in sync on success elements
+            setLang(lang);
+          } else {
+            throw new Error('failed');
+          }
+        } catch (err) {
+          // Reset button and show brief error colour
+          btn.innerHTML = originalHTML;
+          btn.disabled = false;
+          btn.style.background = '#8B1A1A';
+          btn.style.borderColor = '#8B1A1A';
+          setTimeout(() => {
+            btn.style.background = '';
+            btn.style.borderColor = '';
+          }, 3000);
+        }
       });
-    });
+    }
   </script>
 
 </body>
