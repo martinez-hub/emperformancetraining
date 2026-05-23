@@ -670,9 +670,68 @@
     }
 
     /* ─── CONTACT ────────────────────────────────────────────────── */
-    #contact { background: var(--bg); }
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
 
-    .contact-links { display: flex; flex-direction: column; gap: 12px; }
+    .contact-card {
+      background: var(--bg2);
+      padding: 80px;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      min-height: 280px;
+      text-decoration: none; color: var(--text);
+      position: relative; overflow: hidden;
+      transition: background 0.3s var(--ease);
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--blue);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.5s var(--ease);
+    }
+    .contact-card:hover { background: var(--bg3); }
+    .contact-card:hover::before { transform: scaleX(1); }
+
+    .cc-platform {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue-lt);
+      margin-bottom: 16px;
+    }
+    .cc-name {
+      font-family: var(--font-disp);
+      font-size: clamp(36px, 3.5vw, 56px);
+      letter-spacing: 2px; text-transform: uppercase;
+      line-height: 0.95; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .cc-handle {
+      font-size: 14px; color: var(--muted);
+      font-weight: 300; letter-spacing: 0.5px;
+    }
+    .cc-arrow {
+      margin-top: 24px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--blue);
+      display: flex; align-items: center; gap: 8px;
+      opacity: 0; transform: translateX(-10px);
+      transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+    }
+    .contact-card:hover .cc-arrow { opacity: 1; transform: none; }
+
+    @media (max-width: 768px) {
+      #contact { grid-template-columns: 1fr; }
+      .contact-card { padding: 56px 40px; min-height: 200px; }
+    }
+    @media (max-width: 600px) {
+      .contact-card { padding: 48px 24px; }
+    }
 
     .c-link {
       display: flex; align-items: center; gap: 16px;
@@ -1500,41 +1559,37 @@
   </section>
 
   <!-- ═══ CONTACT ════════════════════════════════════════════════════ -->
-  <section id="contact" class="section" aria-label="Contact">
-    <div class="reveal">
-      <p class="s-eye">
-        <span class="es">¿Tienes Preguntas?</span>
-        <span class="en" hidden>Have Questions?</span>
-      </p>
-      <h2 class="s-title">
-        <span class="es">Encuén<span class="accent">tranos</span></span>
-        <span class="en" hidden>Find <span class="accent">Us</span></span>
-      </h2>
-      <p class="s-sub">
-        <span class="es">Síguenos en Instagram o encuéntranos en el mapa. Para agendar una consulta, usa el formulario de arriba.</span>
-        <span class="en" hidden>Follow us on Instagram or find us on the map. To book a consultation, use the form above.</span>
-      </p>
-    </div>
+  <section id="contact" aria-label="Contact">
 
-    <div class="contact-links" style="margin-top:40px;max-width:520px;">
-      <a href="https://www.instagram.com/emperformancetraining_" class="c-link reveal reveal-d1" target="_blank" rel="noopener">
-        <div class="c-link-icon">📷</div>
-        <div>
-          <div class="c-link-lbl">Instagram</div>
-          <div class="c-link-val">@emperformancetraining_</div>
-        </div>
-      </a>
-      <a href="https://share.google/BzFHh5S5sEVBT8S49" class="c-link reveal reveal-d2" target="_blank" rel="noopener">
-        <div class="c-link-icon">📍</div>
-        <div>
-          <div class="c-link-lbl">
-            <span class="es">Ubicación</span>
-            <span class="en" hidden>Location</span>
-          </div>
-          <div class="c-link-val">Carolina, Puerto Rico</div>
-        </div>
-      </a>
-    </div>
+    <a href="https://www.instagram.com/emperformancetraining_"
+       class="contact-card reveal" target="_blank" rel="noopener">
+      <div class="cc-platform">📷 Instagram</div>
+      <div class="cc-name">EM Performance</div>
+      <div class="cc-handle">@emperformancetraining_</div>
+      <div class="cc-arrow">
+        <span class="es">Ver perfil</span>
+        <span class="en" hidden>View profile</span>
+        →
+      </div>
+    </a>
+
+    <a href="https://share.google/BzFHh5S5sEVBT8S49"
+       class="contact-card reveal reveal-d1" target="_blank" rel="noopener">
+      <div class="cc-platform">
+        📍 <span class="es">Ubicación</span><span class="en" hidden>Location</span>
+      </div>
+      <div class="cc-name">Carolina,<br>Puerto Rico</div>
+      <div class="cc-handle">
+        <span class="es">Ver en Google Maps</span>
+        <span class="en" hidden>View on Google Maps</span>
+      </div>
+      <div class="cc-arrow">
+        <span class="es">Abrir mapa</span>
+        <span class="en" hidden>Open map</span>
+        →
+      </div>
+    </a>
+
   </section>
 
   <!-- ═══ FOOTER ═════════════════════════════════════════════════════ -->
